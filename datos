@@ -1,0 +1,70 @@
+
+npm init -y - Crea un package.json
+
+npm install sirve para instalar dependencias
+
+En package.json estan todas nuestras dependencias
+En la carpeta node_modules, se encuentran todos nuestros modulos.
+
+Al momento de compartir nuestro proyecto debemos compartir nuestros archivos estaticos mas el package.json.
+La carpeta node_modules no debe compartirse.
+
+-g instala de manera global
+npx ejecuta el programa pero no instala las dependencias
+
+BORRADO DE app.js
+// Importamos frutas y dinero del archivo frutas.js
+const {frutas, dinero} = require('./frutas.js');
+
+const cowsay = require('cowsay');
+
+console.log(cowsay.say({
+   text : 'Hola amigos de Hernan',
+   e : "oO", // Ojos
+   T: "U " //Lengua
+}))
+
+frutas.forEach(item => {
+   console.count(item)
+})
+
+console.log(dinero)
+
+
+..........................................
+
+nodemon nos permite refrescar el servidor automaticamente
+
+................................................................
+
+
+ejs nos permite trabajar con plantillas "templates". Convina html con javascript
+
+...................................................................
+
+El archivo .gitignore sirve para indicar que archivo no deseamos subir a github.
+...................................................................
+
+Se utiliza el mongoose
+
+SCHEMA
+Todo comienza con un esquema, esto asigna a colección de mongoDB definiendo 
+la forma de los futuros documentos de dicha colección: models->mascota.js
+
+
+...................................................................
+
+VARIABLES DE ENTORNO
+
+Sirven para ocultar informacion de nuestro proyecto.
+
+Utilizamos dotenv de la siguiente manera
+require('dotenv').config();
+
+Luego creamos el archivo .env en este iran las variables de entorno que funcionaran en el entorno local.
+
+Para el hosting hay que configurarlas en el mismo para que funcionen
+
+...............................................................................
+
+npm i body-parser
