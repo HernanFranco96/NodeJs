@@ -1,0 +1,101 @@
+<%- include("templates/cabecera", {tituloWeb : 'Detalle de Mascota'}) %>
+
+<div class="container">
+  <h1 class="text-dark">Detalle Mascota</h1>
+
+  <% if (error) { %>
+  <p><%= mensaje %></p>
+  <a href="/mascotas" class="btn btn-danger btn-block w-100">
+    Volver a Mascotas
+  </a>
+  <% } %> <% if (!error) { %>
+
+  <form id="formularioEditar" data-id="<%= mascota.id %>">
+    <input
+      type="text"
+      class="form-control my-2"
+      name="nombre"
+      value="<%= mascota.nombre %>"
+      id="nombreInput"
+    />
+    <input
+      type="text"
+      class="form-control my-2"
+      name="descripcion"
+      value="<%= mascota.descripcion %>"
+      id="descripcionInput"
+    />
+    <button class="btn btn-warning btn-block w-100" type="submit">
+      Editar
+    </button>
+  </form>
+
+  <hr />
+
+  <button
+    class="btn btn-danger btn-block w-100 mt-1"
+    id="btnEliminar"
+    data-id="<%= mascota.id %>"
+  >
+    Eliminar
+  </button>
+
+  <% } %>
+</div>
+
+<%- include("templates/footer") %>
+
+<script>
+  const btnEliminar = document.querySelector("#btnEliminar");
+  btnEliminar.addEventListener("click", async () => {
+    // Capturamos el id que pasamos a traves de un atributo
+    const id = btnEliminar.dataset.id;
+
+    // console.log('Me diste click')
+    try {
+      // fetch recibe la url donde nosotros vamos a eliminar el documento.
+      const data = await fetch(`/mascotas/${id}`, {
+        method: "delete",
+      });
+      const respuesta = await data.json();
+      if (respuesta.estado) {
+        //Si el estado es true, manda al usuario a mascotas
+        window.location.href = "/mascotas";
+      } else {
+        console.log(respuesta);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  const formularioEditar = document.querySelector("#formularioEditar");
+
+  formularioEditar.addEventListener("submit", async(e) => {
+    e.preventDefault(); // Hace que no se procese el formulario y siga con lo de abajo, sino se refresca el sitio web
+
+    // Obtenemos los datos de los input
+    const nombre = document.querySelector("#nombreInput").value;
+    const descripcion = document.querySelector("#descripcionInput").value;
+    const id = formularioEditar.dataset.id;
+
+    try{
+      const data = await fetch(`/mascotas/${id}`, {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({nombre, descripcion})
+      });
+      const respuesta = await data.json();
+
+      if(respuesta.estado){
+        window.location.href = "/mascotas";
+      }else{
+        console.log(respuesta);
+      }
+    }catch(err){
+      console.log(err)
+    }
+  });
+</script>
